@@ -76,8 +76,10 @@ set nocursorcolumn              " Do not highlight column (speeds up highlightin
 set nocursorline                " Do not highlight cursor (speeds up highlighting)
 set lazyredraw                  " Wait to redraw
 set foldenable                  " allow 折叠
+set foldmethod=indent           " 折叠方式
+set pastetoggle=<F2>                 " 进入粘贴模式
 set ts=4
-set expandtab
+"set expandtab
 set autoindent 
 
 " 设置空白字符的视觉提示
@@ -117,9 +119,21 @@ nnoremap Y y$
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
 
+" move bettwen in windows 
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
 "将当前行当做命令执行。在试验东西时通常比q:更方便。
 nnoremap <leader>e :exe getline(line('.'))<cr>
 
+" 使用leader+w 直接保存
+inoremap <leader>w <Esc>:w<cr>
+nnoremap <leader>w :w<cr>
+
+" sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
 
 " Enable to copy to clipboard for operations like yank, delete, change and put
 " http://stackoverflow.com/questions/20186975/vim-mac-how-to-copy-to-clipboard-without-pbcopy
@@ -144,6 +158,8 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'scrooloose/nerdtree'
 " colorschme
 Plug 'morhetz/gruvbox'
+Plug 'w0ng/vim-hybrid'
+
 " 状态栏
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -178,6 +194,12 @@ Plug 'tmhedberg/SimpylFold'
 "zO： 递归打开光标处所有 fold
 "zc： 关闭光标处 fold
 "zC： 关闭光标处所有 fold
+
+" lastplace
+Plug 'farmergreg/vim-lastplace'
+
+" file history
+Plug 'mhinz/vim-startify'
 
 ""{{ Plugins for markdown writing
 " Distraction free writing
@@ -221,7 +243,7 @@ call plug#end()
 """""""""""""""""""""
 "      Plugins      "
 """""""""""""""""""""
-"colorscheme gruvbox
+colorscheme hybrid
 "let g:airlineTheme='gruvbox'
 
 " {deoplete
@@ -262,6 +284,12 @@ let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
     "autocmd!
     "autocmd VimEnter * NERDTree | wincmd p
 "augroup END
+"
+
+
+" vim-startify 
+" deny startify auto change directory
+let g:startify_change_to_dir = 0
 
 " MarkdownPreview
 "nmap <silent> <F8> <Plug>MarkdownPreview        " for normal mode
@@ -286,7 +314,7 @@ hi HighlightedyankRegion cterm=reverse gui=reverse
 " 调整时间
 "let g:highlightedyank_highlight_duration = 1000 " 高亮持续时间为 1000 毫秒
 
-map ,q :call CompileRunGcc()<CR>
+map <leader>q :call CompileRunGcc()<CR>
 " 一键执行
 func! CompileRunGcc()
     exec "w"
