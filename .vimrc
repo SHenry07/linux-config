@@ -48,7 +48,7 @@ if !has('nvim')
 set ttyfast                     " Indicate fast terminal conn for faster redraw
 set ttymouse=xterm2             " Indicate terminal type for mouse codes
 set ttyscroll=3                 " Speedup scrolling
-endif                           
+endif
 set laststatus=2                " Show status line always
 set encoding=utf-8              " Set default encoding to UTF-8
 set autoread                    " Automatically read changed files
@@ -78,9 +78,11 @@ set lazyredraw                  " Wait to redraw
 set foldenable                  " allow 折叠
 set foldmethod=indent           " 折叠方式
 set pastetoggle=<F2>                 " 进入粘贴模式
-set ts=4
-"set expandtab
-set autoindent 
+set expandtab                   " tab替换为空格 noexpandtab 替换为字符
+set tabstop=4                   " tab == 4
+set shiftwidth=4                " 宽度为4 要一起配置
+
+
 
 " 设置空白字符的视觉提示
 set list listchars=extends:❯,precedes:❮,tab:▸\ ,trail:˽
@@ -119,7 +121,7 @@ nnoremap Y y$
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
 
-" move bettwen in windows 
+" move bettwen in windows
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
@@ -164,24 +166,26 @@ Plug 'w0ng/vim-hybrid'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+ " AI 代码补全工具tabnine
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
 
 Plug 'numirias/semshi', {'do' : ':UpdateRemotePlugins'}
 " 语法检查和自动化make
 Plug 'neomake/neomake'
 " 自动补全
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " python source
-Plug 'zchee/deoplete-jedi'
+"Plug 'zchee/deoplete-jedi'
 " 括号匹配
 Plug 'jiangmiao/auto-pairs'
 " 注释插件
 Plug 'scrooloose/nerdcommenter'
 " 注释单行，使用 <leader>cc，其中 leader 是在 Nvim 中设置的前导按键（Nvim 中默认为 /）；如果要反注释，使用 <leader>cu。更多具体使用方法可以参考插件的文档。
 " https://github.com/scrooloose/nerdcommenter#default-mappings
-" 
+"
 " 多点编辑
 Plug 'terryma/vim-multiple-cursors'
-"命令模式下，首先把光标移动到要重命名的变量处，然后开始按 Ctrl + N，可以看到变量被高亮，继续按 Ctrl + N，变量下一个出现的地方被高亮显示，如果要跳过某个位置该变量的出现（例如，字符串中也可能包含与该变量名相同的子字符串），在该处被高亮以后，再按 Ctrl + X 取消高亮即可，不断选中变量的出现位置，直到所有想要选中的位置均选中完毕。
+"命令模式下，首先把光标移动到要重命名的变量处，然后开始按 Ctrl + N，可以看到变量被高亮，继续按 Ctrl + N，变量下一个出现的地方被高亮显示，如果要跳过某个位置该变量的出现（例如，字符串中也可能包含与该变量名 相同的子字符串），在该处被高亮以后，再按 Ctrl + X 取消高亮即可，不断选中变量的出现位置，直到所有想要选中的位置均选中完毕。
 "此时，按下 c（c 在 Nvim 中代表 change ）,进入编辑模式，输入变量新的名称，保存即可。更多使用方法，请参考该插件的文档。
 "
 
@@ -224,7 +228,7 @@ Plug 'godlygeek/tabular', {'on': 'Tabularize'}
 Plug 'elzr/vim-json', { 'for': ['json', 'markdown'] }
 
 " Markdown previewing
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 
 " emoji
@@ -255,7 +259,7 @@ let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Preview 窗口的可以设为在当前窗口下面打开吗？
 " 默认 preview 窗口在上面打开，可以通过 set splitbelow 使新建立的窗口位于当前窗口下面，参见。https://github.com/Shougo/deoplete.nvim/issues/416
-" tab 在自动补全的列表跳转 
+" tab 在自动补全的列表跳转
 "inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
  inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
@@ -287,7 +291,7 @@ let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
 "
 
 
-" vim-startify 
+" vim-startify
 " deny startify auto change directory
 let g:startify_change_to_dir = 0
 
@@ -330,7 +334,7 @@ func! CompileRunGcc()
         exec '!go run %'
  "   elseif &filetype == 'sh'
  "       :!time bash %
-    endif                                                                       
+    endif
 endfunc<Paste>
 
 " vim-gocode
