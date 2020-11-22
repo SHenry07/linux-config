@@ -3,12 +3,12 @@
 DIR=$(cd $(dirname $0) && pwd)
 OH_MY_ZSH_FOLDER="${HOME}/.oh-my-zsh"
 
-if [ `cat /etc/shells | grep -w zsh` == "" ] ; then
+if [[ -z "`cat /etc/shells | grep -w zsh`" ]] ; then
   sudo apt install zsh
 fi
 
 if [[ ! -d "${OH_MY_ZSH_FOLDER}" ]] ; then
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "${DIR}/zsh.sh"
 else
     echo "oh-my-zsh already installed"; # Should I prompt for repull?
 fi
@@ -32,4 +32,4 @@ ZSH_SYNTAX_HIGHLIGHTING_GIT_URL="https://github.com.cnpmjs.org/zsh-users/zsh-syn
 git clone --depth=1 $ZSH_SYNTAX_HIGHLIGHTING_GIT_URL "${OH_MY_ZSH_PLUGINS_FOLDER}/zsh-syntax-highlighting"
 
 sudo apt install autojump
-cp ${DIR}/.* ~/
+cp ${DIR}/{.zshrc,.p10k.zsh,.aliases,.vimrc} ~/
