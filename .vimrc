@@ -23,6 +23,23 @@
     "finish
 "endif
 
+"Credit joshdick
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+
+if (empty($TMUX))
+  if (has("nvim"))
+  "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
 
 set scrolloff=10
 " A sensible vimrc for Go development
@@ -35,7 +52,7 @@ set scrolloff=10
 
 
 " imap <j><j> :<esc>    " for insert mode
-set background=dark     "  set background=light
+set background=light "  set background=light
 
 
 """""""""""""""""""""""""
@@ -77,11 +94,12 @@ set nocursorline                " Do not highlight cursor (speeds up highlightin
 set lazyredraw                  " Wait to redraw
 set foldenable                  " allow 折叠
 set foldmethod=indent           " 折叠方式
-set pastetoggle=<F2>                 " 进入粘贴模式
+set pastetoggle=<F2>            " 进入粘贴模式
 set expandtab                   " tab替换为空格 noexpandtab 替换为字符
 set tabstop=4                   " tab == 4
 set shiftwidth=4                " 宽度为4 要一起配置
 
+set paste
 
 
 " 设置空白字符的视觉提示
@@ -121,7 +139,7 @@ nnoremap Y y$
 " Enter automatically into the files directory
 autocmd BufEnter * silent! lcd %:p:h
 
-" move bettwen in windows
+" move bettwen in windows 
 noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
@@ -143,7 +161,7 @@ if has('unnamedplus')
   set clipboard^=unnamed
   set clipboard^=unnamedplus
 endif
-
+		
 " This enables us to undo files even if you exit Vim.
 if has('persistent_undo')
   set undofile
@@ -161,31 +179,33 @@ Plug 'scrooloose/nerdtree'
 " colorschme
 Plug 'morhetz/gruvbox'
 Plug 'w0ng/vim-hybrid'
+Plug 'tomasr/molokai'
+Plug 'rakr/vim-one'
 
 " 状态栏
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
  " AI 代码补全工具tabnine
-Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  }
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh'  } 
 
 Plug 'numirias/semshi', {'do' : ':UpdateRemotePlugins'}
 " 语法检查和自动化make
 Plug 'neomake/neomake'
 " 自动补全
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " python source
-"Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-jedi'
 " 括号匹配
 Plug 'jiangmiao/auto-pairs'
 " 注释插件
 Plug 'scrooloose/nerdcommenter'
 " 注释单行，使用 <leader>cc，其中 leader 是在 Nvim 中设置的前导按键（Nvim 中默认为 /）；如果要反注释，使用 <leader>cu。更多具体使用方法可以参考插件的文档。
 " https://github.com/scrooloose/nerdcommenter#default-mappings
-"
+" 
 " 多点编辑
 Plug 'terryma/vim-multiple-cursors'
-"命令模式下，首先把光标移动到要重命名的变量处，然后开始按 Ctrl + N，可以看到变量被高亮，继续按 Ctrl + N，变量下一个出现的地方被高亮显示，如果要跳过某个位置该变量的出现（例如，字符串中也可能包含与该变量名 相同的子字符串），在该处被高亮以后，再按 Ctrl + X 取消高亮即可，不断选中变量的出现位置，直到所有想要选中的位置均选中完毕。
+"命令模式下，首先把光标移动到要重命名的变量处，然后开始按 Ctrl + N，可以看到变量被高亮，继续按 Ctrl + N，变量下一个出现的地方被高亮显示，如果要跳过某个位置该变量的出现（例如，字符串中也可能包含与该变量名相同的子字符串），在该处被高亮以后，再按 Ctrl + X 取消高亮即可，不断选中变量的出现位置，直到所有想要选中的位置均选中完毕。
 "此时，按下 c（c 在 Nvim 中代表 change ）,进入编辑模式，输入变量新的名称，保存即可。更多使用方法，请参考该插件的文档。
 "
 
@@ -238,7 +258,7 @@ Plug 'fszymanski/deoplete-emoji', {'for': 'markdown'}
 
 "
 "" go
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "" go 补全提示
 Plug 'Blackrush/vim-gocode'
 call plug#end()
@@ -247,8 +267,13 @@ call plug#end()
 """""""""""""""""""""
 "      Plugins      "
 """""""""""""""""""""
-colorscheme hybrid
-"let g:airlineTheme='gruvbox'
+colorscheme one
+"colorscheme molokai
+"let g:molokai_original = 1
+"let g:rehash256 = 1
+
+let g:airline_theme='molokai'
+" colorscheme gruvbox
 
 " {deoplete
 let g:deoplete#enable_at_startup = 1
@@ -259,7 +284,7 @@ let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Preview 窗口的可以设为在当前窗口下面打开吗？
 " 默认 preview 窗口在上面打开，可以通过 set splitbelow 使新建立的窗口位于当前窗口下面，参见。https://github.com/Shougo/deoplete.nvim/issues/416
-" tab 在自动补全的列表跳转
+" tab 在自动补全的列表跳转 
 "inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
  inoremap <silent><expr> <TAB>
                 \ pumvisible() ? "\<C-n>" :
@@ -291,7 +316,7 @@ let NERDTreeIgnore = ['\.pyc$', '^__pycache__$']
 "
 
 
-" vim-startify
+" vim-startify 
 " deny startify auto change directory
 let g:startify_change_to_dir = 0
 
@@ -314,7 +339,7 @@ call neomake#configure#automake('nrwi',500)
 "
 " vim-highlightedyank
 " 避免某些主题高亮颜色看不清
-hi HighlightedyankRegion cterm=reverse gui=reverse
+"hi HighlightedyankRegion cterm=reverse gui=reverse
 " 调整时间
 "let g:highlightedyank_highlight_duration = 1000 " 高亮持续时间为 1000 毫秒
 
@@ -334,7 +359,7 @@ func! CompileRunGcc()
         exec '!go run %'
  "   elseif &filetype == 'sh'
  "       :!time bash %
-    endif
+    endif                                                                       
 endfunc<Paste>
 
 " vim-gocode
