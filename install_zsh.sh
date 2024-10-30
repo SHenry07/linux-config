@@ -24,11 +24,11 @@ OH_MY_ZSH_PLUGINS_FOLDER=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins
 
 git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ## zsh-autosugestions
-ZSH_SUGGESTIONS_GIT_URL="https://github.com.cnpmjs.org/zsh-users/zsh-autosuggestions"
+ZSH_SUGGESTIONS_GIT_URL="https://github.com/zsh-users/zsh-autosuggestions"
 git clone --depth=1 $ZSH_SUGGESTIONS_GIT_URL "${OH_MY_ZSH_PLUGINS_FOLDER}/zsh-autosuggestions"
 
 ## zsh-syntax-highlighting
-ZSH_SYNTAX_HIGHLIGHTING_GIT_URL="https://github.com.cnpmjs.org/zsh-users/zsh-syntax-highlighting.git"
+ZSH_SYNTAX_HIGHLIGHTING_GIT_URL="https://github.com/zsh-users/zsh-syntax-highlighting.git"
 git clone --depth=1 $ZSH_SYNTAX_HIGHLIGHTING_GIT_URL "${OH_MY_ZSH_PLUGINS_FOLDER}/zsh-syntax-highlighting"
 
 sudo apt install autojump
