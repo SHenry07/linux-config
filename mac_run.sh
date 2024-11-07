@@ -4,3 +4,12 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
 # install autojump
 brew install autojump 
+
+# install logi options+
+# install kubie
+
+```
+brew install kubectl 
+brew install helm
+brew install kubie
+```

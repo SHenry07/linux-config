@@ -23,6 +23,12 @@
     "finish
 "endif
 
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 "Credit joshdick
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -253,7 +259,7 @@ Plug 'elzr/vim-json', { 'for': ['json', 'markdown'] }
 
 " emoji
 " Plug 'https://gitlab.com/gi1242/vim-emoji-ab'
-Plug 'fszymanski/deoplete-emoji', {'for': 'markdown'}
+Plug 'junegunn/vim-emoji'
 "}}
 
 "
