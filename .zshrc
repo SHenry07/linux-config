@@ -89,7 +89,8 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -117,3 +118,19 @@ ZSH_AUTOSUGGEST_USE_ASYNC=true
 export EDITOR=vim
 
 source ~/.aliases 
+# Turn on some useful options
+setopt auto_cd
+setopt extended_glob
+autoload -U compinit; compinit
+
+source ~/export.sh
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+export  SAVEHIST=$HISTSIZE
+#相同的历史路径只保留一个
+setopt PUSHD_IGNORE_DUPS
+
+# 共享历史记录
+setopt SHARE_HISTORY
