@@ -128,6 +128,8 @@ source ~/export.sh
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
+PATH="/opt/homebrew/opt/mysql-client/bin:$PATH" 
+
 export  SAVEHIST=$HISTSIZE
 #相同的历史路径只保留一个
 setopt PUSHD_IGNORE_DUPS

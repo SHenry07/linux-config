@@ -30,4 +30,6 @@ brew install cdebug
 brew install hashicorp/tap/terraform
 brew install terraformer
 brew install PlantUML
+brew install mysql-client
+
 ```
